@@ -116,20 +116,29 @@ def get_tasks_in_workspace(workspace: str, api_token: str, api_endpoint: str):
                     yield task
 
 
-def find_task_in_workspace(
-    workspace: str, filter: str, api_token: str, api_endpoint: str
+def find_tasks_in_workspace(
+    workspace: str,
+    filter: str,
+    stop_after_first_match: bool,
+    api_token: str,
+    api_endpoint: str,
 ):
     tasks = get_tasks_in_workspace(workspace, api_token, api_endpoint)
 
     filter = simplify_string(filter)
 
+    matches = []
+
     for task in tasks:
+        if stop_after_first_match and len(matches) >= 1:
+            break
+
         task_name = simplify_string(task["name"])
 
         if filter in task_name:
-            return task
+            matches.append(task)
 
-    return None
+    return matches
 
 
 def simplify_string(s: str) -> str:
