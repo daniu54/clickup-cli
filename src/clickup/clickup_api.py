@@ -137,6 +137,7 @@ def find_tasks_in_workspace(
         task_id = simplify_string(task["id"])
 
         if filter in task_id or filter in task_name:
+            print(f"Found match for '{filter}' task id: '{task_id}' task name: '{task_name}'", file=sys.stderr)
             matches.append(task)
 
     return matches
