@@ -5,5 +5,5 @@ from .clickup_api import (
     get_folders,
     get_lists,
     get_tasks_in_workspace,
-    find_task_in_workspace,
+    find_tasks_in_workspace,
 )
