@@ -47,7 +47,7 @@ def parse_args():
         description="Searches tasks whose names match filter in given workspace. The search is case-insensitive and removes special characters"
     )
 
-    parser.add_argument("filter", nargs="+", help="Search terms for task name")
+    parser.add_argument("filter", nargs="+", help="Search filter for task name or task id")
     parser.add_argument(
         "--api-token",
         required=True,

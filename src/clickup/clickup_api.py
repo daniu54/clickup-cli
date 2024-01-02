@@ -134,8 +134,9 @@ def find_tasks_in_workspace(
             break
 
         task_name = simplify_string(task["name"])
+        task_id = simplify_string(task["id"])
 
-        if filter in task_name:
+        if filter in task_id or filter in task_name:
             matches.append(task)
 
     return matches
