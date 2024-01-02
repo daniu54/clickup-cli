@@ -11,6 +11,7 @@ def main():
 
     api_token = args.api_token
     workspace = args.workspace_id
+    stop_after_first_match = args.stop_after_first_match
     filter = " ".join(args.filter)
 
     if not workspace:
@@ -28,22 +29,22 @@ def main():
 
         sys.exit(1)
 
-    match = clickup_api.find_task_in_workspace(
-        workspace, filter, api_token, api_endpoint
+    matches = clickup_api.find_tasks_in_workspace(
+        workspace, filter, stop_after_first_match, api_token, api_endpoint
     )
 
-    if match is not None:
-        print("Found match:", file=sys.stderr)
-        print(json.dumps(match, indent=2))
+    if matches:
+        print(json.dumps(matches, indent=2))
+        print(f"Found {len(matches)} matches", file=sys.stderr)
         sys.exit(0)
 
-    print("Could not find good match, try to specify query more", file=sys.stderr)
+    print("Could not find any good matches, try to specify query more", file=sys.stderr)
     sys.exit(1)
 
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description="Searches tasks whose names match filter in given workspace. The search is case-insensitive"
+        description="Searches tasks whose names match filter in given workspace. The search is case-insensitive and removes special characters"
     )
 
     parser.add_argument("filter", nargs="+", help="Search terms for task name")
@@ -56,6 +57,11 @@ def parse_args():
         "--workspace-id",
         required=False,
         help="Workspace id to search in. Run with no value to see which workspaces are available",
+    )
+    parser.add_argument(
+        "--stop-after-first-match",
+        action="store_true",
+        help="Abort the search after first match is found",
     )
 
     return parser.parse_args()
