@@ -147,6 +147,5 @@ def simplify_string(s: str) -> str:
     s = s.strip()  # remove leading and trailing whitespace
     s = s.lower()  # lowercase
     s = re.sub(r"\s+", " ", s)  # remove excessive whitespace between words
-    s = re.sub(r"[^a-zA-Z\s]", "", s)  # remove non-letters
 
     return s
