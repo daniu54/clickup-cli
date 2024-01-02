@@ -134,8 +134,10 @@ def find_tasks_in_workspace(
             break
 
         task_name = simplify_string(task["name"])
+        task_id = simplify_string(task["id"])
 
-        if filter in task_name:
+        if filter in task_id or filter in task_name:
+            print(f"Found match for '{filter}' task id: '{task_id}' task name: '{task_name}'", file=sys.stderr)
             matches.append(task)
 
     return matches
@@ -145,6 +147,5 @@ def simplify_string(s: str) -> str:
     s = s.strip()  # remove leading and trailing whitespace
     s = s.lower()  # lowercase
     s = re.sub(r"\s+", " ", s)  # remove excessive whitespace between words
-    s = re.sub(r"[^a-zA-Z\s]", "", s)  # remove non-letters
 
     return s
